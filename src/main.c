@@ -1,4 +1,5 @@
 #include <stm32f031x6.h>
+#include "./gameEngine/gameEngine.h"
 #include "display.h"
 void initClock(void);
 void initSysTick(void);
@@ -10,12 +11,6 @@ void enablePullUp(GPIO_TypeDef *Port, uint32_t BitNumber);
 void pinMode(GPIO_TypeDef *Port, uint32_t BitNumber, uint32_t Mode);
 
 volatile uint32_t milliseconds;
-
-typedef struct gameState  {
-	int **grid;
-	int currentMove;
-	
-}; 
 
 const uint16_t deco1[]=
 {
@@ -36,6 +31,7 @@ const uint16_t dg1[]=
 
 int main()
 {
+    int highScore = 0;
 	int hinverted = 0;
 	int vinverted = 0;
 	int toggle = 0;
@@ -49,21 +45,21 @@ int main()
 	initSysTick();
 	setupIO();
 	putImage(20,80,12,16,dg1,0,0);
+    struct gameState *gs = newGame();
+    
+    // Main Game Loop
 	while(1)
 	{
+
 		hmoved = vmoved = 0;
 		hinverted = vinverted = 0;
 		if ((GPIOB->IDR & (1 << 4))==0) // right pressed
 		{					
-			if (x < 110)
-			{
-				x = x + 1;
-				hmoved = 1;
-				hinverted=0;
-			}						
+			gs->currentMove=1;						
 		}
 		if ((GPIOB->IDR & (1 << 5))==0) // left pressed
 		{			
+            gs->currentMove=3;
 			
 			if (x > 10)
 			{
@@ -74,6 +70,7 @@ int main()
 		}
 		if ( (GPIOA->IDR & (1 << 11)) == 0) // down pressed
 		{
+            gs->currentMove=2;
 			if (y < 140)
 			{
 				y = y + 1;			
@@ -83,6 +80,7 @@ int main()
 		}
 		if ( (GPIOA->IDR & (1 << 8)) == 0) // up pressed
 		{			
+            gs->currentMove = 0;
 			if (y > 16)
 			{
 				y = y - 1;
@@ -116,6 +114,16 @@ int main()
 			}
 		}		
 		delay(50);
+        nextMoveIsPossible(gs);
+        if (gs->gameIsOver == 1) {
+            if (highScore < gs->biggestSquare){
+                highScore = gs->biggestSquare;
+                //Game over screen 
+                //Return to main menu
+                freeGameState(gs);
+            }
+        }
+		collisionDetection(gs);
 	}
 	return 0;
 }
