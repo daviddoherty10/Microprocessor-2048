@@ -1,0 +1,20 @@
+Menu:
+    Handles routing between multiplayer and single player modes
+
+Game Engine:
+    Works independently of board
+    Returns the game state to a rendering engine
+    Works the same if in single player or multiplayer
+
+Rendering Engine:
+    Handles all redering to the screen of the Game
+    Works the same if in single player or multiplayer
+
+
+Single Player mode:
+    Relies on the board and buttons for input
+
+Multiplayer:
+    takes serial input from the computer to get move from player 1
+    blocks the serial input until player 2 inputs from the board
+    alternates back and forth from each
