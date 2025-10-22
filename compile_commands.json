@@ -1,0 +1,56 @@
+[
+    {
+        "command": "/Users/daviddoherty/.platformio/packages/toolchain-gccarmnoneeabi/bin/arm-none-eabi-gcc -mthumb -mcpu=cortex-m0 -x assembler-with-cpp -DPLATFORMIO=60118 -DSTM32F0 -DSTM32F031x6 -DF_CPU=48000000L -I/Users/daviddoherty/.platformio/packages/framework-cmsis/CMSIS/Include -I/Users/daviddoherty/.platformio/packages/framework-cmsis-stm32f0/Include -c -o .pio/build/nucleo_f031k6/FrameworkCMSIS/gcc/startup_stm32f031x6.o /Users/daviddoherty/.platformio/packages/framework-cmsis-stm32f0/Source/Templates/gcc/startup_stm32f031x6.S",
+        "directory": "/Users/daviddoherty/TUD/2nd Year/Microprocessors/Game Assignment",
+        "file": "/Users/daviddoherty/.platformio/packages/framework-cmsis-stm32f0/Source/Templates/gcc/startup_stm32f031x6.S",
+        "output": ".pio/build/nucleo_f031k6/FrameworkCMSIS/gcc/startup_stm32f031x6.o"
+    },
+    {
+        "command": "/Users/daviddoherty/.platformio/packages/toolchain-gccarmnoneeabi/bin/arm-none-eabi-gcc -o .pio/build/nucleo_f031k6/FrameworkCMSIS/system_stm32f0xx.o -c -Os -ffunction-sections -fdata-sections -Wall -mthumb -mcpu=cortex-m0 -DPLATFORMIO=60118 -DSTM32F0 -DSTM32F031x6 -DF_CPU=48000000L -I/Users/daviddoherty/.platformio/packages/framework-cmsis/CMSIS/Include -I/Users/daviddoherty/.platformio/packages/framework-cmsis-stm32f0/Include /Users/daviddoherty/.platformio/packages/framework-cmsis-stm32f0/Source/Templates/system_stm32f0xx.c",
+        "directory": "/Users/daviddoherty/TUD/2nd Year/Microprocessors/Game Assignment",
+        "file": "/Users/daviddoherty/.platformio/packages/framework-cmsis-stm32f0/Source/Templates/system_stm32f0xx.c",
+        "output": ".pio/build/nucleo_f031k6/FrameworkCMSIS/system_stm32f0xx.o"
+    },
+    {
+        "command": "/Users/daviddoherty/.platformio/packages/toolchain-gccarmnoneeabi/bin/arm-none-eabi-gcc -o .pio/build/nucleo_f031k6/src/display.o -c -Os -ffunction-sections -fdata-sections -Wall -mthumb -mcpu=cortex-m0 -DPLATFORMIO=60118 -DSTM32F0 -DSTM32F031x6 -DF_CPU=48000000L -Iinclude -Isrc -I/Users/daviddoherty/.platformio/packages/framework-cmsis/CMSIS/Include -I/Users/daviddoherty/.platformio/packages/framework-cmsis-stm32f0/Include src/display.c",
+        "directory": "/Users/daviddoherty/TUD/2nd Year/Microprocessors/Game Assignment",
+        "file": "src/display.c",
+        "output": ".pio/build/nucleo_f031k6/src/display.o"
+    },
+    {
+        "command": "/Users/daviddoherty/.platformio/packages/toolchain-gccarmnoneeabi/bin/arm-none-eabi-gcc -o .pio/build/nucleo_f031k6/src/displayEngine/Game/drawGrid.o -c -Os -ffunction-sections -fdata-sections -Wall -mthumb -mcpu=cortex-m0 -DPLATFORMIO=60118 -DSTM32F0 -DSTM32F031x6 -DF_CPU=48000000L -Iinclude -Isrc -I/Users/daviddoherty/.platformio/packages/framework-cmsis/CMSIS/Include -I/Users/daviddoherty/.platformio/packages/framework-cmsis-stm32f0/Include src/displayEngine/Game/drawGrid.c",
+        "directory": "/Users/daviddoherty/TUD/2nd Year/Microprocessors/Game Assignment",
+        "file": "src/displayEngine/Game/drawGrid.c",
+        "output": ".pio/build/nucleo_f031k6/src/displayEngine/Game/drawGrid.o"
+    },
+    {
+        "command": "/Users/daviddoherty/.platformio/packages/toolchain-gccarmnoneeabi/bin/arm-none-eabi-gcc -o .pio/build/nucleo_f031k6/src/gameEngine/collisionDetection.o -c -Os -ffunction-sections -fdata-sections -Wall -mthumb -mcpu=cortex-m0 -DPLATFORMIO=60118 -DSTM32F0 -DSTM32F031x6 -DF_CPU=48000000L -Iinclude -Isrc -I/Users/daviddoherty/.platformio/packages/framework-cmsis/CMSIS/Include -I/Users/daviddoherty/.platformio/packages/framework-cmsis-stm32f0/Include src/gameEngine/collisionDetection.c",
+        "directory": "/Users/daviddoherty/TUD/2nd Year/Microprocessors/Game Assignment",
+        "file": "src/gameEngine/collisionDetection.c",
+        "output": ".pio/build/nucleo_f031k6/src/gameEngine/collisionDetection.o"
+    },
+    {
+        "command": "/Users/daviddoherty/.platformio/packages/toolchain-gccarmnoneeabi/bin/arm-none-eabi-gcc -o .pio/build/nucleo_f031k6/src/gameEngine/newGameEngine.o -c -Os -ffunction-sections -fdata-sections -Wall -mthumb -mcpu=cortex-m0 -DPLATFORMIO=60118 -DSTM32F0 -DSTM32F031x6 -DF_CPU=48000000L -Iinclude -Isrc -I/Users/daviddoherty/.platformio/packages/framework-cmsis/CMSIS/Include -I/Users/daviddoherty/.platformio/packages/framework-cmsis-stm32f0/Include src/gameEngine/newGameEngine.c",
+        "directory": "/Users/daviddoherty/TUD/2nd Year/Microprocessors/Game Assignment",
+        "file": "src/gameEngine/newGameEngine.c",
+        "output": ".pio/build/nucleo_f031k6/src/gameEngine/newGameEngine.o"
+    },
+    {
+        "command": "/Users/daviddoherty/.platformio/packages/toolchain-gccarmnoneeabi/bin/arm-none-eabi-gcc -o .pio/build/nucleo_f031k6/src/gameEngine/nextMoveIsPossible.o -c -Os -ffunction-sections -fdata-sections -Wall -mthumb -mcpu=cortex-m0 -DPLATFORMIO=60118 -DSTM32F0 -DSTM32F031x6 -DF_CPU=48000000L -Iinclude -Isrc -I/Users/daviddoherty/.platformio/packages/framework-cmsis/CMSIS/Include -I/Users/daviddoherty/.platformio/packages/framework-cmsis-stm32f0/Include src/gameEngine/nextMoveIsPossible.c",
+        "directory": "/Users/daviddoherty/TUD/2nd Year/Microprocessors/Game Assignment",
+        "file": "src/gameEngine/nextMoveIsPossible.c",
+        "output": ".pio/build/nucleo_f031k6/src/gameEngine/nextMoveIsPossible.o"
+    },
+    {
+        "command": "/Users/daviddoherty/.platformio/packages/toolchain-gccarmnoneeabi/bin/arm-none-eabi-gcc -o .pio/build/nucleo_f031k6/src/gameEngine/utils.o -c -Os -ffunction-sections -fdata-sections -Wall -mthumb -mcpu=cortex-m0 -DPLATFORMIO=60118 -DSTM32F0 -DSTM32F031x6 -DF_CPU=48000000L -Iinclude -Isrc -I/Users/daviddoherty/.platformio/packages/framework-cmsis/CMSIS/Include -I/Users/daviddoherty/.platformio/packages/framework-cmsis-stm32f0/Include src/gameEngine/utils.c",
+        "directory": "/Users/daviddoherty/TUD/2nd Year/Microprocessors/Game Assignment",
+        "file": "src/gameEngine/utils.c",
+        "output": ".pio/build/nucleo_f031k6/src/gameEngine/utils.o"
+    },
+    {
+        "command": "/Users/daviddoherty/.platformio/packages/toolchain-gccarmnoneeabi/bin/arm-none-eabi-gcc -o .pio/build/nucleo_f031k6/src/main.o -c -Os -ffunction-sections -fdata-sections -Wall -mthumb -mcpu=cortex-m0 -DPLATFORMIO=60118 -DSTM32F0 -DSTM32F031x6 -DF_CPU=48000000L -Iinclude -Isrc -I/Users/daviddoherty/.platformio/packages/framework-cmsis/CMSIS/Include -I/Users/daviddoherty/.platformio/packages/framework-cmsis-stm32f0/Include src/main.c",
+        "directory": "/Users/daviddoherty/TUD/2nd Year/Microprocessors/Game Assignment",
+        "file": "src/main.c",
+        "output": ".pio/build/nucleo_f031k6/src/main.o"
+    }
+]
