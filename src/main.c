@@ -2,6 +2,8 @@
 #include <stdint.h>
 
 #include "./gameEngine/gameEngine.h"
+#include "./displayEngine/Game/gameDisplayEngine.h"
+#include "./displayEngine/Menu/menuDisplayEngine.h"
 #include "display.h"
 void initClock(void);
 void initSysTick(void);
@@ -802,49 +804,119 @@ int main() {
     setupIO();
     putImage(20, 80, 12, 16, dg1, 0, 0);
     int pressed = 0;
-    struct gameState* gs = newGame();
 
-    // Single Player Main Game Loop
     while (1) {
-        while (pressed != 1) {
-            if ((GPIOB->IDR & (1 << 4)) == 0)  // right pressed
-            {
-                pressed=1;
-                gs->currentMove = 1;
-            }
-            if ((GPIOB->IDR & (1 << 5)) == 0)  // left pressed
-            {
-                pressed=1;
-                gs->currentMove = 3;
-            }
-            if ((GPIOA->IDR & (1 << 11)) == 0)	// down pressed
-            {
-                pressed=1;
-                gs->currentMove = 2;
-            }
-            if ((GPIOA->IDR & (1 << 8)) == 0)  // up pressed
-            {
-                pressed=1;
-                gs->currentMove = 0;
-            }
+        struct gameState* gs = newGame();
+        int mode = showMenu(highScore);
 
-        }
-        pressed=0;
-        delay(50);
-        
-        collisionDetection(gs);
-        nextMoveIsPossible(gs);
-        if (gs->gameIsOver == 1) {
-            if (highScore < gs->biggestSquare) {
-                highScore = gs->biggestSquare;
-                // Game over screen
-                // 5 Second delay or Button press
-                // Return to main menu
-                freeGameState(gs);
+        // Menu To choose Single or Multiplayer and Shows high score
+        if (mode == 0) {
+            // Single Player Main Game Loop
+            while (1) {
+                while (pressed != 1) {
+                    if ((GPIOB->IDR & (1 << 4)) == 0)  // right pressed
+                    {
+                        pressed=1;
+                        gs->currentMove = 1;
+                    }
+                    if ((GPIOB->IDR & (1 << 5)) == 0)  // left pressed
+                    {
+                        pressed=1;
+                        gs->currentMove = 3;
+                    }
+                    if ((GPIOA->IDR & (1 << 11)) == 0)	// down pressed
+                    {
+                        pressed=1;
+                        gs->currentMove = 2;
+                    }
+                    if ((GPIOA->IDR & (1 << 8)) == 0)  // up pressed
+                    {
+                        pressed=1;
+                        gs->currentMove = 0;
+                    }
+
+                }
+                pressed=0;
+                delay(50);
+
+                collisionDetection(gs);
+                nextMoveIsPossible(gs);
+                if (gs->gameIsOver == 1) {
+                    if (highScore < gs->biggestSquare) {
+                        highScore = gs->biggestSquare;
+                        // Game over screen
+                        // 5 Second delay or Button press
+                        // Return to main menu
+                        freeGameState(gs);
+                    }
+                }
+                largestTile(gs);
+                if (gs->biggestSquare > highScore) {
+                    highScore = gs->biggestSquare;
+                }
+
+                addNumberToRandomLocation(gs);
+                //Update Screen
+                drawGrid(gs);
+            }
+        } else {
+            // Multiplayer Loop
+            while (1) {
+                int whichPlayersMove = 0;
+                if (whichPlayersMove % 2 == 0) {
+                    while (pressed != 1) {
+                        if ((GPIOB->IDR & (1 << 4)) == 0)  // right pressed
+                        {
+                            pressed=1;
+                            gs->currentMove = 1;
+                        }
+                        if ((GPIOB->IDR & (1 << 5)) == 0)  // left pressed
+                        {
+                            pressed=1;
+                            gs->currentMove = 3;
+                        }
+                        if ((GPIOA->IDR & (1 << 11)) == 0)	// down pressed
+                        {
+                            pressed=1;
+                            gs->currentMove = 2;
+                        }
+                        if ((GPIOA->IDR & (1 << 8)) == 0)  // up pressed
+                        {
+                            pressed=1;
+                            gs->currentMove = 0;
+                        }
+                    }
+                }else {
+                    // Serial Input for player 2
+                }
+
+                pressed=0;
+                delay(50);
+
+                collisionDetection(gs);
+                nextMoveIsPossible(gs);
+                if (gs->gameIsOver == 1) {
+                    if (highScore < gs->biggestSquare) {
+                        highScore = gs->biggestSquare;
+                        // Game over screen
+                        // 5 Second delay or Button press
+                        // Return to main menu
+                        freeGameState(gs);
+                    }
+                }
+                largestTile(gs);
+                if (gs->biggestSquare > highScore) {
+                    highScore = gs->biggestSquare;
+                }
+
+                addNumberToRandomLocation(gs);
+                //Update Sceen
+                drawGrid(gs);
             }
         }
-        addNumberToRandomLocation(gs);
+        freeGameState(gs);
     }
+
 
     return 0;
 }
