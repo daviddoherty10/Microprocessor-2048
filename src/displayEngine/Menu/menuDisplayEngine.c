@@ -39,9 +39,9 @@ int showMenu(uint16_t highScore) {
     }
 
     // show the user that their selection has been confirmed
-    fillRectangle(0, 70, 128, 60, 0);
+    fillRectangle(0, 0, 128, 160, 0);
     printText("Loading...", 30, 150, RGBToWord(0, 255, 0), 0);
-    delay(250);
+    delay(10);
 
     if (selection == 0) {
         return 1;
