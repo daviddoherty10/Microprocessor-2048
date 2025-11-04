@@ -812,6 +812,7 @@ int main() {
 
         if (mode == 1) {
             // Single Player Main Game Loop
+            drawGrid(gs);
             while (1) {
                 while (pressed != 1) {
                     if ((GPIOB->IDR & (1 << 4)) == 0)  // right pressed
