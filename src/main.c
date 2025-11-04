@@ -810,10 +810,10 @@ int main() {
         // Menu To choose Single or Multiplayer and Shows high score
         int mode = showMenu(highScore);
 
-        if (mode == 0) {
+        if (mode == 1) {
             // Single Player Main Game Loop
             while (1) {
-                while (pressed == 1) {
+                while (pressed != 1) {
                     if ((GPIOB->IDR & (1 << 4)) == 0)  // right pressed
                     {
                         pressed=1;
