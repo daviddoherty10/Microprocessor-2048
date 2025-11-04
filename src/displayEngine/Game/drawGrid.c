@@ -14,6 +14,7 @@
 void drawGrid(gameState* gs) {
     // Setting up the backgound so that it is black and clearing it
     fillRectangle(0, 0, 160, 128, 0);  
+    delay(50);
 
     //Map over the grip
     for (int i = 0; i < GRID_SIZE; i++) {

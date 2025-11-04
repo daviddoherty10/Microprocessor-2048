@@ -19,8 +19,8 @@ int showMenu(uint16_t highScore) {
         uint16_t color2 = (selection == 1) ? RGBToWord(0, 255, 255) : RGBToWord(255, 255, 255);
 
         fillRectangle(0, 70, 128, 60, 0);
-        printTextX2("Single Player", 10, 80, color1, 0);
-        printTextX2("Multiplayer", 10, 110, color2, 0);
+        printText("Single Player", 10, 80, color1, 0);
+        printText("Multiplayer", 10, 110, color2, 0);
         delay(50);
 
         // Handle buttons
