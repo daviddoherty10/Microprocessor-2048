@@ -10,8 +10,8 @@
 #define RGB(r, g, b) RGBToWord(r, g, b)
 
 void drawGrid(gameState* gs) {
-    // Background
-    fillRectangle(0, 0, 160, 128, RGB(0, 0, 0));  // clear screen manually
+    // Setting up the backgound so that it is black and clearing it
+    fillRectangle(0, 0, 160, 128, RGB(0, 0, 0));  
 
 
     // Draw tiles

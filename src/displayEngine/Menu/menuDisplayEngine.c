@@ -1,16 +1,11 @@
 #include "display.h"
 #include <stm32f031x6.h>
 
-#define BTN_UP    (1 << 8)   // GPIOA pin 8
-#define BTN_DOWN  (1 << 11)  // GPIOA pin 11
-#define BTN_SELECT (1 << 4)  // GPIOB pin 4 (reuse right button for "select")
-
-// Returns: 1 = single player, 2 = multiplayer
+//retruns 1 if single player and 2 if multi
 int showMenu(uint16_t highScore) {
-    int selection = 0; // 0 = single, 1 = multi
+    int selection = 0;  
     int confirmed = 0;
 
-    // Clear the screen
     fillRectangle(0, 0, 128, 160, 0); // full black background
 
     // Print title and high score
@@ -30,25 +25,28 @@ int showMenu(uint16_t highScore) {
         printTextX2("Multiplayer", 10, 110, color2, 0);
 
         // Handle buttons
-        if ((GPIOA->IDR & BTN_UP) == 0) {
+        if ((GPIOA->IDR & (1 << 8)) == 0)  // up pressed
+        {
             selection = 0;
         }
-        if ((GPIOA->IDR & BTN_DOWN) == 0) {
+        if ((GPIOA->IDR & (1 << 11)) == 0)	// down pressed
+        {
             selection = 1;
         }
-
-        if ((GPIOB->IDR & BTN_SELECT) == 0) {
+        if ((GPIOB->IDR & (1 << 4)) == 0)  // right pressed
+        {
             confirmed = 1;
         }
-
-        delay(150); // debounce and prevent flicker
     }
 
-    // Visual feedback for confirmation
+    // show the user that their selection has been confirmed
     fillRectangle(0, 150, 128, 10, RGBToWord(0, 255, 0));
     printText("Loading...", 30, 150, RGBToWord(0, 255, 0), 0);
-    delay(500);
 
-    return (selection == 0) ? 1 : 2;
+    if (selection == 0) {
+        return 1;
+    } else {
+        return 2;
+    }
 }
 
