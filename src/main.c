@@ -807,9 +807,9 @@ int main() {
 
     while (1) {
         struct gameState* gs = newGame();
+        // Menu To choose Single or Multiplayer and Shows high score
         int mode = showMenu(highScore);
 
-        // Menu To choose Single or Multiplayer and Shows high score
         if (mode == 0) {
             // Single Player Main Game Loop
             while (1) {
@@ -817,22 +817,22 @@ int main() {
                     if ((GPIOB->IDR & (1 << 4)) == 0)  // right pressed
                     {
                         pressed=1;
-                        gs->currentMove = 1;
+                        gs->currentMove = 'd';
                     }
                     if ((GPIOB->IDR & (1 << 5)) == 0)  // left pressed
                     {
                         pressed=1;
-                        gs->currentMove = 3;
+                        gs->currentMove = 'a';
                     }
                     if ((GPIOA->IDR & (1 << 11)) == 0)	// down pressed
                     {
                         pressed=1;
-                        gs->currentMove = 2;
+                        gs->currentMove = 's';
                     }
                     if ((GPIOA->IDR & (1 << 8)) == 0)  // up pressed
                     {
                         pressed=1;
-                        gs->currentMove = 0;
+                        gs->currentMove = 'w';
                     }
 
                 }

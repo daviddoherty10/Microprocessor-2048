@@ -18,11 +18,10 @@ int showMenu(uint16_t highScore) {
         uint16_t color1 = (selection == 0) ? RGBToWord(0, 255, 255) : RGBToWord(255, 255, 255);
         uint16_t color2 = (selection == 1) ? RGBToWord(0, 255, 255) : RGBToWord(255, 255, 255);
 
-        // Erase previous menu area
         fillRectangle(0, 70, 128, 60, 0);
-
         printTextX2("Single Player", 10, 80, color1, 0);
         printTextX2("Multiplayer", 10, 110, color2, 0);
+        delay(50);
 
         // Handle buttons
         if ((GPIOA->IDR & (1 << 8)) == 0)  // up pressed
@@ -40,8 +39,9 @@ int showMenu(uint16_t highScore) {
     }
 
     // show the user that their selection has been confirmed
-    fillRectangle(0, 150, 128, 10, RGBToWord(0, 255, 0));
+    fillRectangle(0, 70, 128, 60, 0);
     printText("Loading...", 30, 150, RGBToWord(0, 255, 0), 0);
+    delay(250);
 
     if (selection == 0) {
         return 1;
