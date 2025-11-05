@@ -9,7 +9,6 @@
 #define GRID_ORIGIN_X 10
 #define GRID_ORIGIN_Y 30
 
-#define RGB(r, g, b) RGBToWord(r, g, b)
 
 void drawGrid(gameState* gs) {
     // Setting up the backgound so that it is black and clearing it
@@ -28,28 +27,28 @@ void drawGrid(gameState* gs) {
             // Depending on the value the tile the tile will be a different colour
             uint16_t color;
             if (value == 0){
-                color = RGB(30, 30, 30);
+                color = RGBToWord(30, 30, 30);
             }
             else if (value == 2){
-                color = RGB(200, 200, 180);
+                color = RGBToWord(200, 200, 180);
             }
             else if (value == 4){
-                color = RGB(220, 180, 120);
+                color = RGBToWord(220, 180, 120);
             }
             else if (value == 8){
-                color = RGB(255, 160, 90);
+                color = RGBToWord(255, 160, 90);
             }
             else{
-                color = RGB(255, 100, 60);
+                color = RGBToWord(255, 100, 60);
             }
 
             // Then draw the the tile with the x and y value that was a ssigned to it in the previous step with the colour
             fillRectangle(x, y, TILE_SIZE, TILE_SIZE, color);
-            drawRectangle(x, y, TILE_SIZE, TILE_SIZE, RGB(255, 255, 255));
+            drawRectangle(x, y, TILE_SIZE, TILE_SIZE, RGBToWord(255, 255, 255));
 
             // Don't need to print 0 values
             if (value != 0)
-                printNumberX2(value, x + 6, y + 8, RGB(0, 0, 0), color);
+                printNumberX2(value, x + 6, y + 8, RGBToWord(0, 0, 0), color);
         }
     }
 }

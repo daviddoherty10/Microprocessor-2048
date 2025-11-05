@@ -888,7 +888,8 @@ int main() {
                         }
                     }
                 }else {
-                    // Serial Input for player 2
+                    // Get the next move from the PC player
+                    pcNextMove(gs);
                 }
 
                 pressed=0;

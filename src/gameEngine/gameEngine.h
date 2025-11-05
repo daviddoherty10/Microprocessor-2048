@@ -17,5 +17,6 @@ int secure_rand_int(int maxRange);
 void freeGameState(gameState* gs);
 void addNumberToRandomLocation(gameState *gs);
 void largestTile(gameState *gs);
+void pcNextMove(gameState* gs);
 
 #endif
