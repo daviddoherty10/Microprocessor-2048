@@ -1,5 +1,6 @@
 #include "gameEngine.h"
 void nextMoveIsPossible(gameState* gs) {
+    gs->gameIsOver = 0;
     // If there is a 0 (a blank square) then a move is possible
     for (int i = 0; i < GRID_SIZE; i++) {
         for (int j = 0; j < GRID_SIZE; j++) {

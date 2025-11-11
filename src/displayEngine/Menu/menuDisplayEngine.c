@@ -1,4 +1,4 @@
-#include "display.h"
+#include "../utils/display.h"
 #include <stm32f031x6.h>
 
 // returns 1 if single player, 2 if multi
@@ -22,6 +22,7 @@ int showMenu(uint16_t highScore) {
     while (!confirmed) {
 
         int up = (GPIOA->IDR & (1 << 8)) != 0;
+
         int down = (GPIOA->IDR & (1 << 11)) != 0;
         int confirmBtn = (GPIOB->IDR & (1 << 4)) != 0;
 
@@ -65,4 +66,3 @@ int showMenu(uint16_t highScore) {
 
     return (selection == 0) ? 1 : 2;
 }
-

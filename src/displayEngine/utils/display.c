@@ -1,5 +1,5 @@
 #include <stm32f031x6.h>
-#include "font5x7.h"
+#include "./font5x7.h"
 #include "display.h"
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 160

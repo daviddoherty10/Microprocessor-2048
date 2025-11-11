@@ -1,5 +1,5 @@
-#include "../serial_module_files/serial.h"
 #include "gameEngine.h"
+#include "../utils/utils.h"
 
 void pcNextMove(gameState* gs){
     while (1){
@@ -8,7 +8,7 @@ void pcNextMove(gameState* gs){
             gs->currentMove = potentialNextMove;
             return;
         } else {
-            char *returnMessage = "invalid Move\n\r";
+            char returnMessage[14] = "invalid Move\n\r";
             for (int i = 0; i < 14; i++){
                 eputchar(returnMessage[i]);
             }
