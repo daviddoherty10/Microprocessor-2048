@@ -7,41 +7,28 @@ int showMenu(uint16_t highScore) {
     int confirmed = 0;
     int redraw = 1;
 
-    // previous states (for edge detection)
-    int lastUp = 1;
-    int lastDown = 1;
-    int lastConfirm = 1;
-
     fillRectangle(0, 0, 128, 160, 0); // full black background
 
     // Print title and high score
-    printTextX2("2048 Game", 20, 10, RGBToWord(0, 255, 0), 0);
+    printTextX2("2048 Game", 10, 10, RGBToWord(0, 255, 0), 0);
     printText("High Score:", 10, 40, RGBToWord(255, 255, 255), 0);
     printNumber(highScore, 100, 40, RGBToWord(255, 255, 0), 0);
 
     while (!confirmed) {
 
-        int up = (GPIOA->IDR & (1 << 8)) != 0;
-
-        int down = (GPIOA->IDR & (1 << 11)) != 0;
-        int confirmBtn = (GPIOB->IDR & (1 << 4)) != 0;
 
         // edge detection – only react on falling edge (1 -> 0)
-        if (!up && lastUp) {
+        if ((GPIOA->IDR & (1 << 8)) == 0) {
             selection = 0;
             redraw = 1;
         }
-        if (!down && lastDown) {
+        if ((GPIOA->IDR & (1 << 11)) == 0) {
             selection = 1;
             redraw = 1;
         }
-        if (!confirmBtn && lastConfirm) {
+        if ((GPIOB->IDR & (1 << 4)) == 0) {
             confirmed = 1;
         }
-
-        lastUp = up;
-        lastDown = down;
-        lastConfirm = confirmBtn;
 
         if (redraw) {
             uint16_t color1 = (selection == 0) ? RGBToWord(0, 255, 255) : RGBToWord(255, 255, 255);
@@ -64,5 +51,5 @@ int showMenu(uint16_t highScore) {
     printText("Loading...", 30, 150, RGBToWord(0, 255, 0), 0);
     delay(100);
 
-    return (selection == 0) ? 1 : 2;
+    return selection;
 }

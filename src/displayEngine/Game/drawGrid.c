@@ -11,12 +11,7 @@
 
 void drawGrid(gameState* gs) {
     // Only clear grid area, not full screen
-    fillRectangle(GRID_ORIGIN_X, GRID_ORIGIN_Y, 
-                  GRID_SIZE*(TILE_SIZE + TILE_GAP) - TILE_GAP, 
-                  GRID_SIZE*(TILE_SIZE + TILE_GAP) - TILE_GAP, 
-                  RGBToWord(0,0,0));
-
-    for (int i = 0; i < GRID_SIZE; i++) {
+        for (int i = 0; i < GRID_SIZE; i++) {
         for (int j = 0; j < GRID_SIZE; j++) {
             int value = gs->grid[i][j];
 

@@ -1,4 +1,6 @@
 #include <stm32f031x6.h>
+#include <stdlib.h>
+#include <memory.h>
 #include "./font5x7.h"
 #include "display.h"
 #define SCREEN_WIDTH 128
@@ -528,6 +530,13 @@ void printNumber(uint16_t Number, uint16_t x, uint16_t y, uint16_t ForeColour, u
     Buffer[1] = Number % 10 + '0';
     Number = Number / 10;
     Buffer[0] = Number % 10 + '0';
+    int i = 0;
+    while (Buffer[i] == '0' && Buffer[i + 1] != '\0') {
+        i++;
+    }
+    if (i > 0) {
+        memmove(Buffer, Buffer + i, strlen(Buffer + i) + 1);
+    }
     printText(Buffer, x, y, ForeColour, BackColour);
 }
 void printNumberX2(uint16_t Number, uint16_t x, uint16_t y, uint16_t ForeColour, uint16_t BackColour)

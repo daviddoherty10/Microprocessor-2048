@@ -17,10 +17,6 @@ int isInside(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h, uint16_t px, uint
 void enablePullUp(GPIO_TypeDef* Port, uint32_t BitNumber);
 void pinMode(GPIO_TypeDef* Port, uint32_t BitNumber, uint32_t Mode);
 void initSerial(void);
-void eputchar(char c);
-char egetchar(void);
-void eputs(char *String);
-void printDecimal(int32_t Value);
 volatile uint32_t milliseconds;
 
 
@@ -28,19 +24,21 @@ int main() {
     int highScore = 0;
     initClock();
     initSysTick();
+    initSerial();
     setupIO();
-    int pressed = 0;
 
     while (1) {
         struct gameState* gs = newGame();
-        // Menu To choose Single or Multiplayer and Shows high score
-        int mode = showMenu(highScore);
-
-        if (mode == 1) {
+        if (!showMenu(highScore)) {
             fillRectangle(0, 0, 128, 160, RGBToWord(0, 0,0));
             drawGrid(gs);
 
             while (1){
+                nextMoveIsPossible(gs);
+                if (gs->gameIsOver == 1) {
+                    gameOver();
+                    break;
+                }
                 while(1) {
                     if ((GPIOA->IDR & (1 << 8)) == 0) {
                         gs->currentMove = 'w';
@@ -64,68 +62,59 @@ int main() {
                     }
                     delay(100);
                 }
-                drawGrid(gs);
                 collisionDetection(gs);
-                nextMoveIsPossible(gs);
-                addNumberToRandomLocation(gs);
+                if (gs->moveSuccessful == 0){
+                    addNumberToRandomLocation(gs);
+                    largestTile(gs);
+                }
+                drawGrid(gs);
             }
         }else {
-            // Multiplayer Loop
-            while (1) {
-                int whichPlayersMove = 0;
-                if (whichPlayersMove % 2 == 0) {
-                    while (pressed != 1) {
-                        if ((GPIOB->IDR & (1 << 4)) == 0)  // right pressed
-                        {
-                            pressed=1;
-                            gs->currentMove = 1;
-                        }
-                        if ((GPIOB->IDR & (1 << 5)) == 0)  // left pressed
-                        {
-                            pressed=1;
-                            gs->currentMove = 3;
-                        }
-                        if ((GPIOA->IDR & (1 << 11)) == 0)	// down pressed
-                        {
-                            pressed=1;
-                            gs->currentMove = 2;
-                        }
-                        if ((GPIOA->IDR & (1 << 8)) == 0)  // up pressed
-                        {
-                            pressed=1;
-                            gs->currentMove = 0;
-                        }
-                    }
-                }else {
-                    // Get the next move from the PC player
-                    pcNextMove(gs);
-                }
-                whichPlayersMove++;
+            fillRectangle(0, 0, 128, 160, RGBToWord(0, 0,0));
+            drawGrid(gs);
 
-                pressed=0;
-                delay(50);
-
-                collisionDetection(gs);
+            while (1){
                 nextMoveIsPossible(gs);
                 if (gs->gameIsOver == 1) {
-                    if (highScore < gs->biggestSquare) {
-                        highScore = gs->biggestSquare;
-                        // Game over screen
-                        // 5 Second delay or Button press
-                        // Return to main menu
-                        gameOver();
-                        playNote(1000);
-                        freeGameState(gs);
-                        delay(3000);
+                    gameOver();
+                    break;
+                }
+                while(1) {
+                    if ((GPIOA->IDR & (1 << 8)) == 0) {
+                        gs->currentMove = 'w';
+                        delay(100);
+                        break;
                     }
+                    if ((GPIOA->IDR & (1 << 11)) == 0) {
+                        gs->currentMove = 's';
+                        delay(100);
+                        break;
+                    }
+                    if ((GPIOB->IDR & (1 << 5)) == 0) {
+                        gs->currentMove = 'a';
+                        delay(100);
+                        break;
+                    }
+                    if ((GPIOB->IDR & (1 << 4)) == 0) {
+                        gs->currentMove = 'd';
+                        delay(100);
+                        break;
+                    }
+                    delay(100);
                 }
-                largestTile(gs);
-                if (gs->biggestSquare > highScore) {
-                    highScore = gs->biggestSquare;
+                collisionDetection(gs);
+                if (gs->moveSuccessful == 0){
+                    addNumberToRandomLocation(gs);
+                    largestTile(gs);
                 }
+                drawGrid(gs);
 
-                addNumberToRandomLocation(gs);
-                //Update Sceen
+                pcNextMove(gs);
+                nextMoveIsPossible(gs);
+                if (gs->moveSuccessful == 0){
+                    addNumberToRandomLocation(gs);
+                    largestTile(gs);
+                }
                 drawGrid(gs);
             }
         }
@@ -215,27 +204,28 @@ void setupIO() {
     enablePullUp(GPIOA, 8);
 }
 
-void initSerial()
+void initSerial(void)
 {
-    /* On the nucleo board, TX is on PA2 while RX is on PA15 */
-    RCC->AHBENR |= (1 << 17); // enable GPIOA
-    RCC->APB2ENR |= (1 << 14); // enable USART1
-    pinMode(GPIOA,2,2); // enable alternate function on PA2
-    pinMode(GPIOA,15,2); // enable alternate function on PA15
-                         // AF1 = USART1 TX on PA2
-    GPIOA->AFR[0] &= 0xfffff0ff;
-    GPIOA->AFR[0] |= (1 << 8);
-    // AF1 = USART1 RX on PA15
-    GPIOA->AFR[1] &= 0x0fffffff;
-    GPIOA->AFR[1] |= (1 << 28);
-    // De-assert reset of USART1 
-    RCC->APB2RSTR &= ~(1u << 14);
+    RCC->AHBENR  |= (1 << 17);  // GPIOA clock
+    RCC->APB2ENR |= (1 << 14);  // USART1 clock
 
-    USART1->CR1 = 0; // disable before configuration
-    USART1->CR3 |= (1 << 12); // disable overrun detection
-    USART1->BRR = 48000000/9600; // assuming 48MHz clock and 9600 bps data rate
-    USART1->CR1 |= (1 << 2) + (1 << 3); // enable Transmistter and receiver
-    USART1->CR1 |= 1; // enable the UART
+    // PA2 = TX
+    pinMode(GPIOA, 2, 2);
+    GPIOA->AFR[0] &= ~(0xF << (2*4));
+    GPIOA->AFR[0] |=  (1 << (2*4)); // AF1
 
+    // PA3 = RX
+    pinMode(GPIOA, 3, 2);
+    GPIOA->AFR[0] &= ~(0xF << (3*4));
+    GPIOA->AFR[0] |=  (1 << (3*4)); // AF1
+
+    // Reset USART1
+    RCC->APB2RSTR |=  (1 << 14);
+    RCC->APB2RSTR &= ~(1 << 14);
+
+    USART1->CR1 = 0;
+    USART1->BRR = 48000000 / 9600;  // assuming PLL=48MHz
+    USART1->CR1 |= (1 << 2) | (1 << 3); // RE + TE
+    USART1->CR1 |= 1;                   // UE
 }
 

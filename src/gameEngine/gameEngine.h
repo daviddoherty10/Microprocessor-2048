@@ -4,7 +4,7 @@
 
 #define GRID_SIZE 4
 typedef struct gameState {
-    uint8_t** grid;			 // 2D grid (allocate carefully)
+    uint16_t** grid;			 // 2D grid (allocate carefully)
     uint8_t currentMove;	 // e.g., 0=up, 1=right, 2=down, 3=left
     uint8_t moveSuccessful;	 // 1 if move changed the grid, else 0
     uint8_t gameIsOver;

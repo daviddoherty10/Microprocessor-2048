@@ -4,14 +4,21 @@
 void pcNextMove(gameState* gs){
     while (1){
         char potentialNextMove = egetchar();
-        if (potentialNextMove == 'w'|| potentialNextMove == 'a'|| potentialNextMove == 's' || potentialNextMove == 'd'){
+
+        // ignore CR/LF
+        if (potentialNextMove == '\r' || potentialNextMove == '\n')
+            continue;
+
+        if (potentialNextMove == 'w' || potentialNextMove == 'a' ||
+            potentialNextMove == 's' || potentialNextMove == 'd') {
             gs->currentMove = potentialNextMove;
             return;
         } else {
-            char returnMessage[14] = "invalid Move\n\r";
-            for (int i = 0; i < 14; i++){
+            const char returnMessage[] = "invalid Move\n\r";
+            for (int i = 0; i < sizeof(returnMessage)-1; i++){
                 eputchar(returnMessage[i]);
             }
         }
     }
 }
+

@@ -30,6 +30,7 @@ struct gameState* newGame(){
     gs->currentMove = -1;
     gs->biggestSquare= 2;
     gs->grid[secure_rand_int(GRID_SIZE)][secure_rand_int(GRID_SIZE)] = (secure_rand_int(2)+1)*2;
+    gs->grid[secure_rand_int(GRID_SIZE)][secure_rand_int(GRID_SIZE)] = (secure_rand_int(2)+1)*2;
     return gs;
 }
 
